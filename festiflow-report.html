@@ -13,7 +13,7 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#050608;--brd:#161c28;--brdh:#222a3a;--t1:#eaecf0;--t2:#8a92a4;--t3:#454d60;--acc:#00ffaa;--adim:rgba(0,255,170,.1);--aglow:rgba(0,255,170,.04);--amb:#ffb84d;--ambdim:rgba(255,184,77,.1);--red:#ed4245;--mono:'Azeret Mono',monospace;--sans:'Outfit',sans-serif}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--t1);font-family:var(--sans);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;opacity:0;animation:pageIn 1s ease .2s forwards}
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);line-height:1.65;overflow:hidden;-webkit-font-smoothing:antialiased;opacity:0;animation:pageIn 1s ease .2s forwards}
 @keyframes pageIn{to{opacity:1}}
 ::selection{background:var(--acc);color:var(--bg)}
 canvas#P{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
@@ -174,7 +174,7 @@ nav.scrolled .nav-left,nav.scrolled .nav-right{opacity:1;pointer-events:auto}
 .more-indicator span{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t3)}
 
 /* ═══ LOGIN GATE ═══ */
-.pw-overlay{position:fixed;inset:0;background:rgba(4,4,10,1);display:flex;align-items:center;justify-content:center;z-index:10000;transition:opacity .4s}
+.pw-overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:10000;transition:opacity .4s}
 .pw-modal{position:relative;z-index:1;background:rgba(10,14,20,.3);border:1px solid rgba(0,255,170,.1);border-radius:20px;padding:32px 28px;width:320px;box-shadow:0 32px 80px rgba(0,0,0,.2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-align:center}
 .pw-studio-logo{font-family:var(--sans);font-weight:900;font-size:14px;letter-spacing:-.5px;color:rgba(255,255,255,.3);margin-bottom:20px}
 .pw-studio-logo span{color:rgba(0,255,170,.4)}
@@ -894,7 +894,7 @@ function toggleOlderFeedback() {
 /* ═══ LOGIN GATE ═══ */
 var PW='festireport';
 var pwUnlocked=sessionStorage.getItem('pw_ok')==='1';
-if(pwUnlocked){document.getElementById('pwGate').style.display='none'}else{document.body.style.overflow='hidden'}
+if(pwUnlocked){document.getElementById('pwGate').style.display='none';document.body.style.overflow=''}
 else{
   // Login particles
   var pc=document.getElementById('pwParticles'),pctx=pc.getContext('2d'),ppts=[],pmx={x:-1e3,y:-1e3},pWW,pHH;
@@ -924,7 +924,7 @@ function pwCheck(){
     var gate=document.getElementById('pwGate');
     gate.style.opacity='0';
     if(typeof pwAnimId!=='undefined')cancelAnimationFrame(pwAnimId);
-    document.body.style.overflow='';setTimeout(function(){gate.style.display='none'},400);
+    document.body.style.overflow='auto';setTimeout(function(){gate.style.display='none'},400);
   } else {
     error.textContent='Mot de passe incorrect';
     document.getElementById('pwInput').value='';
