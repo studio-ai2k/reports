@@ -899,7 +899,7 @@ function toggleOlderFeedback() {
 /* ═══ LOGIN GATE ═══ */
 var PW='festireport';
 var pwUnlocked=sessionStorage.getItem('pw_ok')==='1';
-if(pwUnlocked){document.getElementById('pwGate').style.display='none';document.body.style.overflow='';document.body.style.animation='pageIn 1s ease .2s forwards';startMainParticles()}
+if(pwUnlocked){document.getElementById('pwGate').style.display='none';document.body.style.overflow='auto';document.body.style.animation='pageIn 1s ease .2s forwards';startMainParticles()}
 else{
   // Login particles
   var pc=document.getElementById('pwParticles'),pctx=pc.getContext('2d'),ppts=[],pmx={x:-1e3,y:-1e3},pWW,pHH;
