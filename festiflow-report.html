@@ -929,7 +929,7 @@ function pwCheck(){
     var gate=document.getElementById('pwGate');
     gate.style.opacity='0';
     if(typeof pwAnimId!=='undefined')cancelAnimationFrame(pwAnimId);
-    document.body.style.overflow='auto';document.body.style.animation='pageIn 1s ease .2s forwards';startMainParticles();setTimeout(function(){gate.style.display='none'},400);
+    document.body.style.overflow='auto';document.body.style.animation='pageIn 1s ease .2s forwards';startMainParticles();setTimeout(function(){gate.style.display='none';measure()},400);
   } else {
     error.textContent='Mot de passe incorrect';
     document.getElementById('pwInput').value='';
