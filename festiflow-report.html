@@ -269,6 +269,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 
 <!-- LOGIN GATE -->
 <div class="pw-overlay" id="pwGate">
+  <canvas id="pwParticles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
   <div class="pw-modal" id="pwModal">
     <div class="pw-studio-logo">studio AI<span>2K</span></div>
     <img src="LOGO_ROND_JAUNE.png" class="pw-modal-logo" alt="Festiflow">
@@ -437,7 +438,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 
     <!-- RECENT — last 2 weeks, always visible -->
     <div class="cl-entry">
-      <div class="cl-date">Semaine 30 mars — 4 avr</div>
+      <div class="cl-date">Semaine 31 mars — 6 avr</div>
       <div class="cl-content">
         <h4><span class="cl-tag update">Update</span>Shell React — En cours</h4>
         <p>Passage du shell HTML vers React. Design tokens, card system et typographie unifiés. Navigation, rail, event switcher, dashboard en place. Finalisation en cours — derniers ajustements avant de passer au design du Budget.</p>
@@ -534,7 +535,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 <!-- FOOTER -->
 <footer><div class="C"><div class="fr">
   <p>&copy; 2026 studio AI2K. All rights reserved.</p>
-  <p>Dernière mise à jour : Semaine 31 mars — 4 avr</p>
+  <p>Dernière mise à jour : Semaine 31 mars — 6 avr</p>
   <a href="https://studio-ai2k.github.io">studio-ai2k.github.io</a>
 </div></div></footer>
 
@@ -894,6 +895,19 @@ function toggleOlderFeedback() {
 var PW='festireport';
 var pwUnlocked=sessionStorage.getItem('pw_ok')==='1';
 if(pwUnlocked){document.getElementById('pwGate').style.display='none'}
+else{
+  // Login particles
+  var pc=document.getElementById('pwParticles'),pctx=pc.getContext('2d'),ppts=[],pmx={x:-1e3,y:-1e3},pWW,pHH;
+  function prs(){pWW=pc.width=innerWidth;pHH=pc.height=innerHeight}prs();addEventListener('resize',prs);
+  document.addEventListener('mousemove',function(e){pmx.x=e.clientX;pmx.y=e.clientY});
+  var pcx=pWW/2,pcy=pHH/2,pt0=performance.now();
+  function PPt(){this.tx=Math.random()*pWW;this.ty=Math.random()*pHH;this.x=pcx;this.y=pcy;this.delay=Math.random()*300;var a=Math.random()*Math.PI*2,f=5+Math.random()*10;this.vx=Math.cos(a)*f;this.vy=Math.sin(a)*f;this.r=Math.random()*1.5+.5;this.a=Math.random()*.25+.04;this.born=false;this.s=false;this.trail=[]}
+  PPt.prototype.u=function(){var elapsed=performance.now()-pt0;if(!this.born){if(elapsed>this.delay)this.born=true;else return}if(!this.s){this.vx*=.96;this.vy*=.96;this.x+=this.vx;this.y+=this.vy;this.trail.push({x:this.x,y:this.y});if(this.trail.length>8)this.trail.shift();if(elapsed>600){this.x+=(this.tx-this.x)*.04;this.y+=(this.ty-this.y)*.04}var dx=this.x-this.tx,dy=this.y-this.ty;if(Math.abs(this.vx)<.15&&Math.abs(this.vy)<.15&&Math.sqrt(dx*dx+dy*dy)<3){this.s=true;this.x=this.tx;this.y=this.ty;this.vx=(Math.random()-.5)*.3;this.vy=(Math.random()-.5)*.3;this.trail=[]}}else{this.x+=this.vx;this.y+=this.vy;var dx=this.x-pmx.x,dy=this.y-pmx.y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){var f=(120-d)/120*.8;this.vx+=dx/d*f;this.vy+=dy/d*f}this.vx*=.98;this.vy*=.98;if(this.x<-10)this.x=pWW+10;if(this.x>pWW+10)this.x=-10;if(this.y<-10)this.y=pHH+10;if(this.y>pHH+10)this.y=-10}};
+  PPt.prototype.d=function(){if(!this.born)return;if(!this.s&&this.trail.length>1){for(var i=1;i<this.trail.length;i++){pctx.beginPath();pctx.moveTo(this.trail[i-1].x,this.trail[i-1].y);pctx.lineTo(this.trail[i].x,this.trail[i].y);pctx.strokeStyle='rgba(0,255,170,'+(i/this.trail.length*.15)+')';pctx.lineWidth=.5;pctx.stroke()}}pctx.beginPath();pctx.arc(this.x,this.y,this.r,0,Math.PI*2);pctx.fillStyle='rgba(0,255,170,'+this.a+')';pctx.fill()};
+  var pcnt=Math.min(Math.floor(pWW*pHH/12000),100);for(var i=0;i<pcnt;i++)ppts.push(new PPt());
+  function pdl(){for(var i=0;i<ppts.length;i++){if(!ppts[i].s)continue;for(var j=i+1;j<ppts.length;j++){if(!ppts[j].s)continue;var dx=ppts[i].x-ppts[j].x,dy=ppts[i].y-ppts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<100){pctx.beginPath();pctx.moveTo(ppts[i].x,ppts[i].y);pctx.lineTo(ppts[j].x,ppts[j].y);pctx.strokeStyle='rgba(0,255,170,'+(0.12*(1-d/100))+')';pctx.lineWidth=.5;pctx.stroke()}}}}
+  var pwAnimId;function pan(){pctx.clearRect(0,0,pWW,pHH);for(var i=0;i<ppts.length;i++){ppts[i].u();ppts[i].d()}pdl();pwAnimId=requestAnimationFrame(pan)}pan();
+}
 
 function pwDots(val){
   var d=document.getElementById('pwDisplay');
@@ -909,6 +923,7 @@ function pwCheck(){
     sessionStorage.setItem('pw_ok','1');
     var gate=document.getElementById('pwGate');
     gate.style.opacity='0';
+    if(typeof pwAnimId!=='undefined')cancelAnimationFrame(pwAnimId);
     setTimeout(function(){gate.style.display='none'},400);
   } else {
     error.textContent='Mot de passe incorrect';
