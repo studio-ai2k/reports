@@ -367,7 +367,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
   <div class="rv">
     <p class="slb">Modules</p>
     <h2 class="st"><span id="moduleHeadingCount">19</span> modules, une seule <em>application.</em></h2>
-    <p class="ss">Chaque module est cliquable. Les liens s'activent au fur et à mesure du développement — chaque preview est une réplique HTML fidèle de la version React.</p>
+    <p class="ss">Chaque module est cliquable. Les liens s'activent au fur et à mesure du développement — chaque module designé en React est répliqué en HTML interactif pour review. Les standalones renvoient vers les outils en production.</p>
   </div>
   <div id="moduleMap" style="margin-top:64px"></div>
 </div></section>
@@ -395,8 +395,8 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
       <span style="font-family:var(--mono);font-size:11px;color:var(--acc);background:var(--adim);border:1px solid rgba(0,255,170,.15);padding:5px 14px;letter-spacing:1.5px;text-transform:uppercase">Prochaine livraison</span>
     </div>
-    <h3 style="font-size:18px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px">Finalisation du shell React + lancement design React Budget</h3>
-    <p style="font-size:14px;color:var(--t2);line-height:1.75;max-width:560px">Le shell React est en phase finale. Le design du module Budget — priorité #1 — est le prochain chantier. Première version consultable ici dès qu'elle est prête.</p>
+    <h3 style="font-size:18px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px">Session Générale Budget + finalisation shell React</h3>
+    <p style="font-size:14px;color:var(--t2);line-height:1.75;max-width:560px">Création de la session Budget "Général" pour les frais cross-event. Gestion des revenus et remboursements à venir. En parallèle, finalisation du shell React avant de lancer le design React du module Budget.</p>
   </div>
 </div></section>
 
@@ -442,10 +442,39 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 
     <!-- RECENT — last 2 weeks, always visible -->
     <div class="cl-entry">
+      <div class="cl-date">Semaine 7 — 10 avr</div>
+      <div class="cl-content">
+        <h4><span class="cl-tag update">Update</span>Budget v2.1 — Import incrémental & matching intelligent</h4>
+        <p>Refonte majeure du backend Budget. L'import Qonto est maintenant incrémental — ré-upload sans perte de données. Nouveau moteur de matching par notes qui récupère 80% des transactions sans catégorie. Vue "Toutes les transactions" unifiée avec statuts, tri et actions directes (Assigner / Réattribuer). Création des sessions Bordeaux et EPK.</p>
+      </div>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-date">Semaine 7 — 10 avr</div>
+      <div class="cl-content">
+        <h4><span class="cl-tag new">New</span>Budget — Création session Générale</h4>
+        <p>Mise en place de la session "Général" pour les frais cross-event (frais généraux, divers). Sessions EPK et Bordeaux opérationnelles. Prochaines étapes : revenus, remboursements, code événement visible dans l'interface.</p>
+      </div>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-date">Semaine 5 — 7 avr</div>
+      <div class="cl-content">
+        <h4><span class="cl-tag update">Update</span>Shell — Exploration design & composants</h4>
+        <p>Progression sur la librairie de composants React. Exploration de plusieurs directions visuelles pour affiner le design system. Mise à jour de l'ordre de build : Budget en priorité, puis Contacts.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- OLDER — hidden by default -->
+  <div class="changelog" id="clOlder" style="display:none">
+
+    <div class="cl-entry">
       <div class="cl-date">Semaine 31 mars — 6 avr</div>
       <div class="cl-content">
         <h4><span class="cl-tag update">Update</span>Shell React — En cours</h4>
-        <p>Passage du shell HTML vers React. Design tokens, card system et typographie unifiés. Navigation, rail, event switcher, dashboard en place. Finalisation en cours — derniers ajustements avant de passer au design du Budget.</p>
+        <p>Passage du shell HTML vers React. Design tokens, card system et typographie unifiés. Navigation, rail, event switcher, dashboard en place.</p>
       </div>
     </div>
 
@@ -464,11 +493,6 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
         <p>Intégration shell HTML pour le module Médias. Connexion API Dropbox, gestion des tokens, système de backup. Continuation du développement des fonctionnalités photographes/vidéastes.</p>
       </div>
     </div>
-
-  </div>
-
-  <!-- OLDER — hidden by default -->
-  <div class="changelog" id="clOlder" style="display:none">
 
     <div class="cl-entry">
       <div class="cl-date">Semaine 17 — 21 mars</div>
@@ -539,7 +563,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 <!-- FOOTER -->
 <footer><div class="C"><div class="fr">
   <p>&copy; 2026 studio AI2K. All rights reserved.</p>
-  <p>Dernière mise à jour : Semaine 31 mars — 6 avr</p>
+  <p>Dernière mise à jour : Semaine 7 — 10 avr</p>
   <a href="https://ai2k.dev">ai2k.dev</a>
 </div></div></footer>
 
@@ -598,7 +622,7 @@ var MODULES = [
   ]},
   { section: "Finance", items: [
     { name: "Billetterie", status: "live", desc: "Standalone opérationnel — dashboard ventes, import DICE & Shotgun, projections. Version React après migration.", link: "https://madameloyal.github.io/festiflow/bordeaux.html", standalone: true },
-    { name: "Budget", status: "live", desc: "Standalone opérationnel — suivi financier 13 onglets, import Qonto, matching transactions. Version React après migration.", link: "https://madameloyal.github.io/budgetflow/#", priority: true, standalone: true },
+    { name: "Budget", status: "live", desc: "v2.1 — Import Qonto incrémental, matching intelligent des notes (80% récupérés), vue transactions unifiée, multi-session. Prochaine étape : design React.", links: [{label:"Paris XXL",url:"https://madameloyal.github.io/budgetflow/budget_pa.html"},{label:"Bordeaux",url:"https://madameloyal.github.io/budgetflow/budget_bdx.html"},{label:"EPK",url:"https://madameloyal.github.io/budgetflow/budget_epk.html"}], priority: true, standalone: true },
     { name: "Partenaires", status: "planned", desc: "CRM sponsors — pipeline, contrats, contreparties, rapport post-event.", link: "" },
   ]},
   { section: "Staffing · Événement", items: [
@@ -643,8 +667,12 @@ function renderModules() {
       var link = '';
       if (m.name === 'Dashboard') {
         link = '<a href="' + SHELL_LINK + '" class="mod-card-link" target="_blank">Voir le shell →</a>';
+      } else if (m.links && m.links.length) {
+        link = '<div style="display:flex;gap:12px;flex-wrap:wrap">' + m.links.map(function(l) {
+          return '<a href="' + l.url + '" class="mod-card-link" target="_blank">' + l.label + ' →</a>';
+        }).join('') + '</div>';
       } else if (m.link && m.standalone) {
-        link = '<a href="' + m.link + '" class="mod-card-link" target="_blank">Version standalone →</a>';
+        link = '<a href="' + m.link + '" class="mod-card-link" target="_blank">Standalone HTML →</a>';
       } else if (m.link) {
         link = '<a href="' + m.link + '" class="mod-card-link" target="_blank">Voir →</a>';
       }
