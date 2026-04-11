@@ -623,6 +623,7 @@ var MODULES = [
   { section: "Finance", items: [
     { name: "Billetterie", status: "live", desc: "Standalone opérationnel — dashboard ventes, import DICE & Shotgun, projections. Version React après migration.", link: "https://madameloyal.github.io/festiflow/bordeaux.html", standalone: true },
     { name: "Budget", status: "live", desc: "v3 — UI repensée, système 'À Trier', linking recettes, assign searchable (iPad), 6 bug fixes critiques, optimisé mobile (iPhone 17 Pro Max). Prochaine étape : design React.", links: [{label:"Paris XXL",url:"https://madameloyal.github.io/budgetflow/budget_pa.html"},{label:"Bordeaux",url:"https://madameloyal.github.io/budgetflow/budget_bdx.html"},{label:"EPK",url:"https://madameloyal.github.io/budgetflow/budget_epk.html"}], priority: true, standalone: true },
+    { name: "Demande d'Achat", status: "planned", desc: "Demandes d'achat & abonnements — formulaire employé, validation CEO, sync Budget.", link: "" },
     { name: "Partenaires", status: "planned", desc: "CRM sponsors — pipeline, contrats, contreparties, rapport post-event.", link: "" },
   ]},
   { section: "Staffing · Événement", items: [
@@ -632,16 +633,16 @@ var MODULES = [
     { name: "Transport", status: "planned", desc: "Logistique transport staff — billets, trajets, budget.", link: "" },
     { name: "Hébergement", status: "planned", desc: "Rooming list, attribution chambres, budget nuitées.", link: "" },
   ]},
-  { section: "Base RH · Permanent", items: [
+  { section: "Système", items: [
     { name: "Contacts", status: "proto", desc: "Base de données unique — fondation de tous les modules.", link: "" },
-    { name: "Admin / Paie", status: "planned", desc: "Données sensibles — sécu sociale, IBAN, DPAE. Accès restreint.", link: "" },
+    { name: "Admin", status: "planned", desc: "Comptes utilisateurs, rôles, permissions, audit trail.", link: "" },
   ]},
   { section: "Programmation", items: [
     { name: "Artistes", status: "planned", desc: "Bookings, cachets, riders, agences et scouting.", link: "" },
-    { name: "Guest List", status: "planned", desc: "Guest lists, magic links artistes, fusion door list, check-in.", link: "" },
   ]},
   { section: "Opérations", items: [
     { name: "Atelier", status: "planned", desc: "Inventaire matériel, factures internes, cartes de crédit.", link: "" },
+    { name: "Guest List", status: "planned", desc: "Guest lists, magic links, fusion door list, check-in.", link: "" },
   ]},
   { section: "Communication", items: [
     { name: "Calendrier", status: "proto", desc: "Planning communication — 4 vues, charge par membre.", link: "" },

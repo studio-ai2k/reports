@@ -463,6 +463,7 @@ const ICONS = {
   "ChevronRight": `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`,
   "CheckCircle2": `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
   "Plus": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`,
+  "Receipt": `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>`,
 };
 
 const NAV = [
@@ -473,6 +474,7 @@ const NAV = [
   { section: "Finance", items: [
     { id: "billetterie", label: "Billetterie", icon: "ArrowUpDown", badge: "live" },
     { id: "budget", label: "Budget", icon: "DollarSign", badge: "design" },
+    { id: "demande-achat", label: "Demande d'Achat", icon: "Receipt", badge: "bientôt" },
     { id: "partenaires", label: "Partenaires", icon: "Handshake", badge: "bientôt" },
   ]},
   { section: "Staffing · Événement", items: [
@@ -482,16 +484,16 @@ const NAV = [
     { id: "transport", label: "Transport", icon: "Bus", badge: "bientôt" },
     { id: "hebergement", label: "Hébergement", icon: "Home", badge: "bientôt" },
   ]},
-  { section: "Base RH · Permanent", items: [
+  { section: "Système", items: [
     { id: "contacts", label: "Contacts", icon: "UserPlus", badge: "design" },
-    { id: "admin-paie", label: "Admin / Paie", icon: "Lock", badge: "bientôt" },
+    { id: "admin", label: "Admin", icon: "Lock", badge: "bientôt" },
   ]},
   { section: "Programmation", items: [
     { id: "artistes", label: "Artistes", icon: "Music", badge: "bientôt" },
-    { id: "guest-list", label: "Guest List", icon: "ListChecks", badge: "bientôt" },
   ]},
   { section: "Opérations", items: [
     { id: "atelier", label: "Atelier", icon: "Warehouse", badge: "bientôt" },
+    { id: "guest-list", label: "Guest List", icon: "ListChecks", badge: "bientôt" },
   ]},
   { section: "Communication", items: [
     { id: "calendrier", label: "Calendrier", icon: "CalendarDays", badge: "design" },
@@ -519,7 +521,8 @@ const MODULE_INFO = {
   transport:{desc:"Hub logistique transport staff — données tirées du Registre.",features:["Données auto depuis Registre","Vue synthèse transport","Édition manuelle","Ajout transport hors Registre","Upload PDF billets","Infos détaillées par trajet","Calcul budget temps réel","Lien direct vers Budget"]},
   hebergement:{desc:"Hub hébergement staff — données depuis Registre.",features:["Données auto depuis Registre","Vue synthèse hébergement","Édition manuelle","Attribution chambres","Historique événements précédents","Préférences staff","Upload documents","Export PDF rooming list","Calcul budget temps réel","Lien direct vers Budget"]},
   contacts:{desc:"Base de données contacts permanente — fondation de tous les modules.",features:["Fiche contact complète","Recherche instantanée & filtres","Tags & compétences","Statut contact","Vue par événement ou tous","Magic link envoi","Historique événements","Import/export CSV","Alimente tous les modules","Contacts presse taggés"]},
-  "admin-paie":{desc:"Données administratives sensibles — accès restreint admin/CEO.",features:["Numéro de sécurité sociale","IBAN / RIB","Numéro congé spectacle","Lieu de naissance","Upload attestation","Statut DPAE","Accès restreint admin/CEO","Onglet verrouillé dans Contacts"]},
+  "admin":{desc:"Comptes utilisateurs, rôles, permissions et audit trail.",features:["Comptes utilisateurs","Rôles et permissions","Audit trail","Accès restreint admin/CEO"]},
+  "demande-achat":{desc:"Demandes d'achat & abonnements — formulaire employé, validation CEO, sync BudgetFlow.",features:["Formulaire demande : item, montant, upload facture","Sélection session BudgetFlow","Statut : brouillon → soumis → approuvé / rejeté","CEO réattribue vers session + onglet + ligne","Onglet abonnements récurrents","Total mensuel par session","Notifications au demandeur","Historique par pôle et demandeur"]},
   artistes:{desc:"Base artistes complète : bookings, cachets, riders, agences et scouting.",features:["Répertoire artistes","Infos agence par artiste","Infos manager","Regroupement par agence","Historique cachets","Riders techniques & hospitalité","Zone Scouting","Scouting réseaux sociaux","Contact agence & manager","Logistique artiste"]},
   "guest-list":{desc:"Gestion guest list général et artistes avec magic links.",features:["Guest list général","Création listes typées","Guest list artistes","Magic link artiste/agence","Niveaux accès par pass","Crédit bar par pass","Deadline guest list","Fusion door list","Interface check-in jour J","Stats par type de liste"]},
   atelier:{desc:"Inventaire matériel, factures internes et suivi cartes de crédit.",features:["Inventaire matériel","Statut items","Affectation items par événement","Factures internes","Workflow approbation","Lignes → création auto Budget","Suivi cartes de crédit","Réconciliation dépenses"]},
