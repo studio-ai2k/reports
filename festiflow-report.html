@@ -395,8 +395,8 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
       <span style="font-family:var(--mono);font-size:11px;color:var(--acc);background:var(--adim);border:1px solid rgba(0,255,170,.15);padding:5px 14px;letter-spacing:1.5px;text-transform:uppercase">Prochaine livraison</span>
     </div>
-    <h3 style="font-size:18px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px">Session Générale Budget + finalisation shell React</h3>
-    <p style="font-size:14px;color:var(--t2);line-height:1.75;max-width:560px">Création de la session Budget "Général" pour les frais cross-event. Gestion des revenus et remboursements à venir. En parallèle, finalisation du shell React avant de lancer le design React du module Budget.</p>
+    <h3 style="font-size:18px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px">Pages restantes Budget + shell Festiflow + retours session lundi</h3>
+    <p style="font-size:14px;color:var(--t2);line-height:1.75;max-width:560px">Finalisation des pages complémentaires du Budget (Identité événement, Documents, Fiche événement). Continuation du shell React Festiflow. Intégration des retours de la session Budget de lundi pour ajuster l'outil aux besoins terrain.</p>
   </div>
 </div></section>
 
@@ -442,18 +442,18 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 
     <!-- RECENT — last 2 weeks, always visible -->
     <div class="cl-entry">
-      <div class="cl-date">Semaine 7 — 10 avr</div>
+      <div class="cl-date">Semaine 7 — 11 avr</div>
       <div class="cl-content">
-        <h4><span class="cl-tag update">Update</span>Budget v2.1 — Import incrémental & matching intelligent</h4>
-        <p>Refonte majeure du backend Budget. L'import Qonto est maintenant incrémental — ré-upload sans perte de données. Nouveau moteur de matching par notes qui récupère 80% des transactions sans catégorie. Vue "Toutes les transactions" unifiée avec statuts, tri et actions directes (Assigner / Réattribuer). Création des sessions Bordeaux et EPK.</p>
+        <h4><span class="cl-tag update">Update</span>Budget v3 — Release opérationnelle</h4>
+        <p>Refonte complète de l'interface : nouveau système de navigation, tables simplifiées (HT uniquement, TVA en drawer). Système "À Trier" pour les transactions incertaines. Linking des recettes. Assign searchable optimisé iPad. Import Qonto incrémental avec matching intelligent. 6 bugs critiques corrigés (cache, préfixes, ghost lines). Optimisé mobile pour iPhone 17 Pro Max — dis-moi quel téléphone tu utilises pour optimiser le tien.</p>
       </div>
     </div>
 
     <div class="cl-entry">
-      <div class="cl-date">Semaine 7 — 10 avr</div>
+      <div class="cl-date">Semaine 7 — 11 avr</div>
       <div class="cl-content">
-        <h4><span class="cl-tag new">New</span>Budget — Création session Générale</h4>
-        <p>Mise en place de la session "Général" pour les frais cross-event (frais généraux, divers). Sessions EPK et Bordeaux opérationnelles. Prochaines étapes : revenus, remboursements, code événement visible dans l'interface.</p>
+        <h4><span class="cl-tag new">New</span>Budget — Sessions Bordeaux, EPK & Générale</h4>
+        <p>Trois sessions déployées en production. Session Générale pour les frais cross-event en cours de création.</p>
       </div>
     </div>
 
@@ -563,7 +563,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 <!-- FOOTER -->
 <footer><div class="C"><div class="fr">
   <p>&copy; 2026 studio AI2K. All rights reserved.</p>
-  <p>Dernière mise à jour : Semaine 7 — 10 avr</p>
+  <p>Dernière mise à jour : Semaine 7 — 11 avr</p>
   <a href="https://ai2k.dev">ai2k.dev</a>
 </div></div></footer>
 
@@ -622,7 +622,7 @@ var MODULES = [
   ]},
   { section: "Finance", items: [
     { name: "Billetterie", status: "live", desc: "Standalone opérationnel — dashboard ventes, import DICE & Shotgun, projections. Version React après migration.", link: "https://madameloyal.github.io/festiflow/bordeaux.html", standalone: true },
-    { name: "Budget", status: "live", desc: "v2.1 — Import Qonto incrémental, matching intelligent des notes (80% récupérés), vue transactions unifiée, multi-session. Prochaine étape : design React.", links: [{label:"Paris XXL",url:"https://madameloyal.github.io/budgetflow/budget_pa.html"},{label:"Bordeaux",url:"https://madameloyal.github.io/budgetflow/budget_bdx.html"},{label:"EPK",url:"https://madameloyal.github.io/budgetflow/budget_epk.html"}], priority: true, standalone: true },
+    { name: "Budget", status: "live", desc: "v3 — UI repensée, système 'À Trier', linking recettes, assign searchable (iPad), 6 bug fixes critiques, optimisé mobile (iPhone 17 Pro Max). Prochaine étape : design React.", links: [{label:"Paris XXL",url:"https://madameloyal.github.io/budgetflow/budget_pa.html"},{label:"Bordeaux",url:"https://madameloyal.github.io/budgetflow/budget_bdx.html"},{label:"EPK",url:"https://madameloyal.github.io/budgetflow/budget_epk.html"}], priority: true, standalone: true },
     { name: "Partenaires", status: "planned", desc: "CRM sponsors — pipeline, contrats, contreparties, rapport post-event.", link: "" },
   ]},
   { section: "Staffing · Événement", items: [
