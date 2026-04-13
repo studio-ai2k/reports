@@ -171,6 +171,11 @@ nav.scrolled .nav-left,nav.scrolled .nav-right{opacity:1;pointer-events:auto}
 .btn:hover{border-color:var(--acc);color:var(--bg)}
 .btn:hover::before{width:100%}
 .fb-success{display:none;font-family:var(--mono);font-size:12px;color:var(--acc);letter-spacing:.5px;margin-top:8px}
+.fb-entry.fb-done{opacity:.45}
+.fb-entry.fb-done .fb-entry-message{text-decoration:line-through;text-decoration-color:var(--t3)}
+.fb-status-done{font-family:var(--mono);font-size:9px;color:var(--acc);letter-spacing:.5px;margin-left:8px;text-transform:uppercase}
+.fb-mark-done{background:none;border:1px solid rgba(0,255,170,.15);color:var(--acc);font-size:11px;padding:2px 8px;border-radius:4px;cursor:pointer;margin-left:8px;transition:all .2s;font-family:var(--mono)}
+.fb-mark-done:hover{background:rgba(0,255,170,.1);border-color:rgba(0,255,170,.3)}
 
 /* ═══ MORE INDICATOR ═══ */
 .more-indicator{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:40px;cursor:pointer}
@@ -623,7 +628,6 @@ var MODULES = [
   { section: "Finance", items: [
     { name: "Billetterie", status: "live", desc: "Standalone opérationnel — dashboard ventes, import DICE & Shotgun, projections. Version React après migration.", link: "https://madameloyal.github.io/festiflow/bordeaux.html", standalone: true },
     { name: "Budget", status: "live", desc: "v3 — UI repensée, système 'À Trier', linking recettes, assign searchable (iPad), 6 bug fixes critiques, optimisé mobile (iPhone 17 Pro Max). Prochaine étape : design React.", links: [{label:"Paris XXL",url:"https://madameloyal.github.io/budgetflow/budget_pa.html"},{label:"Bordeaux",url:"https://madameloyal.github.io/budgetflow/budget_bdx.html"},{label:"EPK",url:"https://madameloyal.github.io/budgetflow/budget_epk.html"}], priority: true, standalone: true },
-    { name: "Demande d'Achat", status: "planned", desc: "Demandes d'achat & abonnements — formulaire employé, validation CEO, sync Budget.", link: "" },
     { name: "Partenaires", status: "planned", desc: "CRM sponsors — pipeline, contrats, contreparties, rapport post-event.", link: "" },
   ]},
   { section: "Staffing · Événement", items: [
@@ -633,16 +637,16 @@ var MODULES = [
     { name: "Transport", status: "planned", desc: "Logistique transport staff — billets, trajets, budget.", link: "" },
     { name: "Hébergement", status: "planned", desc: "Rooming list, attribution chambres, budget nuitées.", link: "" },
   ]},
-  { section: "Système", items: [
+  { section: "Base RH · Permanent", items: [
     { name: "Contacts", status: "proto", desc: "Base de données unique — fondation de tous les modules.", link: "" },
-    { name: "Admin", status: "planned", desc: "Comptes utilisateurs, rôles, permissions, audit trail.", link: "" },
+    { name: "Admin / Paie", status: "planned", desc: "Données sensibles — sécu sociale, IBAN, DPAE. Accès restreint.", link: "" },
   ]},
   { section: "Programmation", items: [
     { name: "Artistes", status: "planned", desc: "Bookings, cachets, riders, agences et scouting.", link: "" },
+    { name: "Guest List", status: "planned", desc: "Guest lists, magic links artistes, fusion door list, check-in.", link: "" },
   ]},
   { section: "Opérations", items: [
     { name: "Atelier", status: "planned", desc: "Inventaire matériel, factures internes, cartes de crédit.", link: "" },
-    { name: "Guest List", status: "planned", desc: "Guest lists, magic links, fusion door list, check-in.", link: "" },
   ]},
   { section: "Communication", items: [
     { name: "Calendrier", status: "proto", desc: "Planning communication — 4 vues, charge par membre.", link: "" },
@@ -727,11 +731,11 @@ var SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTMV_JDEp3x
 
 // Local feedback store (for optimistic display before Sheet syncs)
 var allFeedback = [];
+var IS_ADMIN = window.location.search.indexOf('admin=1') > -1;
 
 function parseFeedbackCSV(csv) {
   var lines = csv.split('\n');
   if (lines.length < 2) return [];
-  // Parse header to find column indices
   var header = lines[0].split(',').map(function(h) { return h.replace(/"/g, '').trim().toLowerCase(); });
   var nameIdx = header.indexOf('name');
   var moduleIdx = header.indexOf('module');
@@ -739,10 +743,10 @@ function parseFeedbackCSV(csv) {
   var sourceIdx = header.indexOf('source');
   var messageIdx = header.indexOf('message');
   var tsIdx = header.indexOf('timestamp');
+  var statusIdx = header.indexOf('status');
   var results = [];
   for (var i = 1; i < lines.length; i++) {
     if (!lines[i].trim()) continue;
-    // Simple CSV parse (handles quoted fields)
     var cols = [];
     var current = '';
     var inQuote = false;
@@ -759,7 +763,9 @@ function parseFeedbackCSV(csv) {
       event: (cols[eventIdx] || '').replace(/^"|"$/g, ''),
       source: (cols[sourceIdx] || '').replace(/^"|"$/g, ''),
       message: (cols[messageIdx] || '').replace(/^"|"$/g, ''),
-      timestamp: (cols[tsIdx] || '').replace(/^"|"$/g, '')
+      timestamp: (cols[tsIdx] || '').replace(/^"|"$/g, ''),
+      status: statusIdx > -1 ? (cols[statusIdx] || '').replace(/^"|"$/g, '') : '',
+      row: i + 1
     });
   }
   return results;
@@ -793,10 +799,14 @@ function renderFeedbackFeed() {
     if (fb.module) tags += '<span class="fb-entry-tag mod">' + fb.module + '</span>';
     if (fb.event) tags += '<span class="fb-entry-tag evt">' + fb.event + '</span>';
     if (fb.source) tags += '<span class="fb-entry-tag src">' + fb.source + '</span>';
-    return '<div class="fb-entry">' +
+    var isDone = fb.status === 'done';
+    var doneClass = isDone ? ' fb-done' : '';
+    var doneBadge = isDone ? '<span class="fb-status-done">✓ traité</span>' : '';
+    var adminBtn = (IS_ADMIN && !isDone && fb.row) ? '<button class="fb-mark-done" onclick="markFbDone(' + fb.row + ',this)">✓</button>' : '';
+    return '<div class="fb-entry' + doneClass + '">' +
       '<div class="fb-entry-meta">' +
-        '<div class="fb-entry-date">' + formatFbDate(fb.timestamp) + '</div>' +
-        '<div class="fb-entry-author">' + (fb.name || 'Anonyme') + '</div>' +
+        '<div class="fb-entry-date">' + formatFbDate(fb.timestamp) + doneBadge + '</div>' +
+        '<div class="fb-entry-author">' + (fb.name || 'Anonyme') + adminBtn + '</div>' +
       '</div>' +
       '<div class="fb-entry-body">' +
         (tags ? '<div class="fb-entry-tags">' + tags + '</div>' : '') +
@@ -845,16 +855,13 @@ function loadFeedback() {
     return;
   }
   fetch(SHEET_CSV_URL)
-    .then(function(r) { console.log('Feedback CSV status:', r.status); return r.text(); })
+    .then(function(r) { return r.text(); })
     .then(function(csv) {
-      console.log('Feedback CSV length:', csv.length, 'First 200 chars:', csv.substring(0, 200));
       allFeedback = parseFeedbackCSV(csv);
-      console.log('Parsed feedback entries:', allFeedback.length);
       renderFeedbackFeed();
       renderModuleBadges();
     })
-    .catch(function(err) {
-      console.error('Feedback fetch error:', err);
+    .catch(function() {
       document.getElementById('fbFeedEmpty').textContent = 'Impossible de charger les retours.';
     });
 }
@@ -961,7 +968,7 @@ function pwCheck(){
     var gate=document.getElementById('pwGate');
     gate.style.opacity='0';
     if(typeof pwAnimId!=='undefined')cancelAnimationFrame(pwAnimId);
-    document.body.style.overflow='auto';document.body.style.animation='pageIn 1s ease .2s forwards';startMainParticles();setTimeout(function(){gate.style.display='none';measure();loadFeedback()},400);
+    document.body.style.overflow='auto';document.body.style.animation='pageIn 1s ease .2s forwards';startMainParticles();setTimeout(function(){gate.style.display='none';measure()},400);
   } else {
     error.textContent='Mot de passe incorrect';
     document.getElementById('pwInput').value='';
@@ -976,6 +983,21 @@ function pwCheck(){
       document.getElementById('pwField').style.borderColor='';
     },2000);
   }
+}
+
+/* ═══ ADMIN: MARK FEEDBACK AS DONE ═══ */
+function markFbDone(row, btn) {
+  btn.textContent = '…';
+  btn.disabled = true;
+  fetch(FEEDBACK_URL, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'markDone', row: row })
+  });
+  // Optimistic update
+  var entry = allFeedback.find(function(fb) { return fb.row === row; });
+  if (entry) entry.status = 'done';
+  renderFeedbackFeed();
 }
 </script>
 </body>
