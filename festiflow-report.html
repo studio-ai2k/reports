@@ -447,6 +447,14 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 
     <!-- RECENT — last 2 weeks, always visible -->
     <div class="cl-entry">
+      <div class="cl-date">Semaine 12 — 13 avr</div>
+      <div class="cl-content">
+        <h4><span class="cl-tag update">Update</span>Billetterie v5.2 — Intégration EPK 2023 & nouveau mode de comparaison</h4>
+        <p>Adaptation complète du pipeline pour comparer EPK 2026 avec la référence EPK 2023 (Shotgun uniquement, 263 jours de vente). Nouveau mode de comparaison par ancrage date-événement pour aligner deux timelines différentes. Mapping automatique des jours (Ven+Sam → Sam+Dim), classification ticket GOLD → VIP, détection auto de la date de lancement. Shell supprimé du standalone — template épuré avec login. Fix CSS mobile et correction crash pipeline Bordeaux.</p>
+      </div>
+    </div>
+
+    <div class="cl-entry">
       <div class="cl-date">Semaine 7 — 11 avr</div>
       <div class="cl-content">
         <h4><span class="cl-tag update">Update</span>Budget v3 — Release opérationnelle</h4>
@@ -462,6 +470,11 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
       </div>
     </div>
 
+  </div>
+
+  <!-- OLDER — hidden by default -->
+  <div class="changelog" id="clOlder" style="display:none">
+
     <div class="cl-entry">
       <div class="cl-date">Semaine 5 — 7 avr</div>
       <div class="cl-content">
@@ -469,11 +482,6 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
         <p>Progression sur la librairie de composants React. Exploration de plusieurs directions visuelles pour affiner le design system. Mise à jour de l'ordre de build : Budget en priorité, puis Contacts.</p>
       </div>
     </div>
-
-  </div>
-
-  <!-- OLDER — hidden by default -->
-  <div class="changelog" id="clOlder" style="display:none">
 
     <div class="cl-entry">
       <div class="cl-date">Semaine 31 mars — 6 avr</div>
@@ -568,7 +576,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 <!-- FOOTER -->
 <footer><div class="C"><div class="fr">
   <p>&copy; 2026 studio AI2K. All rights reserved.</p>
-  <p>Dernière mise à jour : Semaine 7 — 11 avr</p>
+  <p>Dernière mise à jour : Semaine 12 — 13 avr</p>
   <a href="https://ai2k.dev">ai2k.dev</a>
 </div></div></footer>
 
@@ -989,10 +997,13 @@ function pwCheck(){
 function markFbDone(row, btn) {
   btn.textContent = '…';
   btn.disabled = true;
+  // Use POST with form-encoded data (works with no-cors)
+  var formData = new FormData();
+  formData.append('action', 'markDone');
+  formData.append('row', row);
   fetch(FEEDBACK_URL, {
     method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'markDone', row: row })
+    body: formData
   });
   // Optimistic update
   var entry = allFeedback.find(function(fb) { return fb.row === row; });
