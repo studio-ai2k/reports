@@ -332,8 +332,9 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
     <p class="slb">Progress</p>
     <h2 class="st">Où en <em>est-on.</em></h2>
   </div>
+  <p class="rv" style="font-size:15px;color:var(--t2);line-height:1.75;max-width:640px;margin-top:32px">Festiflow est né d'outils isolés construits pour Madame Loyal. L'objectif : une plateforme unifiée, d'abord en interne, puis en SaaS pour l'industrie événementielle.</p>
 
-  <div style="margin-top:64px;display:flex;flex-direction:column;gap:16px">
+  <div id="progressCards" style="display:none;margin-top:32px;flex-direction:column;gap:16px">
 
     <div class="rv" style="background:rgba(25,30,40,.6);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:32px 28px">
       <div class="si">Origines</div>
@@ -365,6 +366,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
     </div>
 
   </div>
+  <div class="more-indicator rv" onclick="toggleProgressCards()"><span id="progressMoreTxt">More</span><div class="shl"></div></div>
 </div></section>
 
 <!-- MODULES -->
@@ -382,6 +384,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
   <div class="rv">
     <p class="slb">Roadmap</p>
     <h2 class="st">Le chemin vers le <em>produit.</em></h2>
+    <p class="ss" style="margin-top:8px">8 phases — de la validation terrain au lancement SaaS.</p>
   </div>
   <div class="pipeline fly-steps">
     <div class="pipe-line"></div><div class="pipe-line-fill"></div>
@@ -670,10 +673,21 @@ var SHELL_LINK = "festiflow-shell.html";
 function renderModules() {
   var el = document.getElementById('moduleMap');
   var html = '';
-  MODULES.forEach(function(section) {
+  var expandedSections = ['Général', 'Finance'];
+  MODULES.forEach(function(section, sIdx) {
+    var isExpanded = expandedSections.indexOf(section.section) > -1;
     html += '<div class="mod-section rv">';
-    html += '<div class="mod-section-label">' + section.section + '</div>';
-    html += '<div class="mod-grid">';
+    if (isExpanded) {
+      html += '<div class="mod-section-label">' + section.section + '</div>';
+      html += '<div class="mod-grid">';
+    } else {
+      html += '<div class="mod-section-toggle" onclick="toggleModSection(this)" style="display:flex;align-items:center;gap:8px;padding:14px 0;cursor:pointer;border-top:1px solid rgba(255,255,255,.06)">';
+      html += '<span class="mod-section-label" style="margin:0">' + section.section + '</span>';
+      html += '<span style="font-size:11px;color:var(--t3);margin-left:4px">' + section.items.length + ' module' + (section.items.length > 1 ? 's' : '') + '</span>';
+      html += '<span class="mod-chevron" style="font-size:11px;color:var(--t3);margin-left:auto;transition:transform .3s">▸</span>';
+      html += '</div>';
+      html += '<div class="mod-grid" style="display:none">';
+    }
     section.items.forEach(function(m) {
       var cls = m.status === 'planned' ? 'mod-card is-planned' : 'mod-card';
       var badgeCls = m.status === 'live' ? 'mod-badge live' : m.status === 'proto' ? 'mod-badge proto' : 'mod-badge planned';
@@ -701,8 +715,19 @@ function renderModules() {
     html += '</div></div>';
   });
   el.innerHTML = html;
-  // observe new reveals
   document.querySelectorAll('.mod-section.rv').forEach(function(el) { obs.observe(el); });
+}
+
+function toggleModSection(toggle) {
+  var grid = toggle.nextElementSibling;
+  var chevron = toggle.querySelector('.mod-chevron');
+  if (grid.style.display === 'none') {
+    grid.style.display = '';
+    chevron.style.transform = 'rotate(90deg)';
+  } else {
+    grid.style.display = 'none';
+    chevron.style.transform = '';
+  }
 }
 renderModules();
 
@@ -907,6 +932,21 @@ renderModuleBadges();
 
 // Load feedback from Google Sheet (will overwrite mock data when configured)
 loadFeedback();
+
+/* ═══ PROGRESS MORE/LESS ═══ */
+var progressExpanded = false;
+function toggleProgressCards() {
+  var cards = document.getElementById('progressCards');
+  var txt = document.getElementById('progressMoreTxt');
+  progressExpanded = !progressExpanded;
+  if (progressExpanded) {
+    cards.style.display = 'flex';
+    txt.textContent = 'Less';
+  } else {
+    cards.style.display = 'none';
+    txt.textContent = 'More';
+  }
+}
 
 /* ═══ CHANGELOG MORE/LESS ═══ */
 var clExpanded = false;
