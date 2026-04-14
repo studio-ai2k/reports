@@ -23,7 +23,7 @@ section{padding:clamp(80px,12vh,140px) 0;position:relative}
 section:not(.hero)::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,rgba(0,255,170,.3),var(--brd) 40%,var(--brd));transform:scaleX(0);transform-origin:left;transition:transform 1.5s cubic-bezier(.16,1,.3,1) .3s}
 section:not(.hero):nth-of-type(even)::before{transform-origin:right;background:linear-gradient(270deg,rgba(0,255,170,.3),var(--brd) 40%,var(--brd))}
 section.vi::before{transform:scaleX(1)}
-@keyframes fi{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
 
 /* ═══ NAV — identical to website ═══ */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;height:64px;display:flex;align-items:center;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(5,6,8,.35);border-bottom:1px solid var(--brd);transition:background .3s,border-color .3s}
@@ -100,6 +100,15 @@ nav.scrolled .nav-left,nav.scrolled .nav-right{opacity:1;pointer-events:auto}
 /* ═══ MODULE MAP ═══ */
 .mod-section{margin-bottom:40px}
 .mod-section-label{font-family:var(--mono);font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:3px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--brd)}
+.mod-section-toggle{display:flex;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--brd);cursor:pointer;transition:border-color .3s}
+.mod-section-toggle:hover{border-color:var(--brdh)}
+
+/* ═══ STAGGER REVEAL ═══ */
+@keyframes staggerIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.stagger-in>*{opacity:0;animation:staggerIn .4s ease forwards}
+.mod-toggle-label{font-family:var(--mono);font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:3px}
+.mod-toggle-plus{font-size:18px;color:var(--t3);margin-left:auto;transition:transform .3s;line-height:1}
+.mod-toggle-plus.open{transform:rotate(45deg)}
 .mod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .mod-card{background:rgba(25,30,40,.6);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:24px 22px;transition:background .6s,border-color .6s,box-shadow .6s;position:relative;overflow:hidden}
 .mod-card:hover{background:rgba(15,30,25,.65);border-color:rgba(0,255,170,.1);box-shadow:0 0 60px rgba(0,255,170,.04) inset}
@@ -332,8 +341,9 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
     <p class="slb">Progress</p>
     <h2 class="st">Où en <em>est-on.</em></h2>
   </div>
+  <p class="rv" style="font-size:15px;color:var(--t2);line-height:1.75;max-width:640px;margin-top:32px">Festiflow est né d'outils isolés construits pour Madame Loyal. L'objectif : une plateforme unifiée, d'abord en interne, puis en SaaS pour l'industrie événementielle.</p>
 
-  <div style="margin-top:64px;display:flex;flex-direction:column;gap:16px">
+  <div id="progressCards" style="display:none;margin-top:32px;flex-direction:column;gap:16px">
 
     <div class="rv" style="background:rgba(25,30,40,.6);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:32px 28px">
       <div class="si">Origines</div>
@@ -365,6 +375,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
     </div>
 
   </div>
+  <div class="more-indicator rv" onclick="toggleProgressCards()"><span id="progressMoreTxt">More</span><div class="shl"></div></div>
 </div></section>
 
 <!-- MODULES -->
@@ -382,20 +393,45 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
   <div class="rv">
     <p class="slb">Roadmap</p>
     <h2 class="st">Le chemin vers le <em>produit.</em></h2>
+    <p class="ss" style="margin-top:8px">8 phases — de la validation terrain au lancement SaaS.</p>
   </div>
-  <div class="pipeline fly-steps">
-    <div class="pipe-line"></div><div class="pipe-line-fill"></div>
-    <div class="pipe-steps">
-      <div class="pipe-step done"><div class="pipe-dot">100%</div><h3>Standalones</h3><p>Outils HTML opérationnels — Billetterie, Budget, Médias. Proof of concept terrain.</p></div>
-      <div class="pipe-step done"><div class="pipe-dot">100%</div><h3>Vision SaaS</h3><p>Décision de construire une plateforme unifiée. Architecture 19 modules définie.</p></div>
-      <div class="pipe-step active"><div class="pipe-dot">60%</div><h3>Spécifications</h3><p>Brief technique par module en cours. Audit de cohérence. Design system et tokens définis.</p></div>
-      <div class="pipe-step active"><div class="pipe-dot">5%</div><h3>Design React</h3><p>Shell en cours. Budget en priorité, puis Contacts. Modules designés progressivement.</p></div>
-      <div class="pipe-step"><div class="pipe-dot">0%</div><h3>Serveur</h3><p>Infrastructure Hetzner, FastAPI, PostgreSQL. Budget premier module en production.</p></div>
-      <div class="pipe-step"><div class="pipe-dot">0%</div><h3>Intégration</h3><p>Migration des standalones. Données réelles. Multi-événement. Accès par rôle.</p></div>
-      <div class="pipe-step"><div class="pipe-dot">0%</div><h3>Déploiement ML</h3><p>Test en conditions réelles avec l'équipe Madame Loyal. Retours terrain, ajustements, validation.</p></div>
-      <div class="pipe-step"><div class="pipe-dot">0%</div><h3>SaaS</h3><p>Multi-tenant, onboarding, commercialisation. Festiflow devient un produit.</p></div>
+
+  <!-- SLIM BAR — always visible -->
+  <div class="rv" style="margin-top:32px">
+    <div style="display:flex;gap:4px;margin-bottom:6px">
+      <div style="flex:1;height:6px;background:var(--acc);border-radius:3px" title="Standalones 100%"></div>
+      <div style="flex:1;height:6px;background:var(--acc);border-radius:3px" title="Vision SaaS 100%"></div>
+      <div style="flex:1;height:6px;background:rgba(0,255,170,.5);border-radius:3px" title="Spécifications 60%"></div>
+      <div style="flex:1;height:6px;background:rgba(0,255,170,.15);border-radius:3px" title="Design React 5%"></div>
+      <div style="flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px" title="Serveur 0%"></div>
+      <div style="flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px" title="Intégration 0%"></div>
+      <div style="flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px" title="Déploiement ML 0%"></div>
+      <div style="flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px" title="SaaS 0%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.5px">
+      <span>Standalones</span><span>Specs</span><span>React</span><span>Serveur</span><span>SaaS</span>
     </div>
   </div>
+
+  <!-- FULL PIPELINE — hidden by default -->
+  <div id="roadmapFull" style="display:none">
+    <div class="pipeline fly-steps">
+      <div class="pipe-line"></div><div class="pipe-line-fill"></div>
+      <div class="pipe-steps">
+        <div class="pipe-step done"><div class="pipe-dot">100%</div><h3>Standalones</h3><p>Outils HTML opérationnels — Billetterie, Budget, Médias. Proof of concept terrain.</p></div>
+        <div class="pipe-step done"><div class="pipe-dot">100%</div><h3>Vision SaaS</h3><p>Décision de construire une plateforme unifiée. Architecture 19 modules définie.</p></div>
+        <div class="pipe-step active"><div class="pipe-dot">60%</div><h3>Spécifications</h3><p>Brief technique par module en cours. Audit de cohérence. Design system et tokens définis.</p></div>
+        <div class="pipe-step active"><div class="pipe-dot">5%</div><h3>Design React</h3><p>Shell en cours. Budget en priorité, puis Contacts. Modules designés progressivement.</p></div>
+        <div class="pipe-step"><div class="pipe-dot">0%</div><h3>Serveur</h3><p>Infrastructure Hetzner, FastAPI, PostgreSQL. Budget premier module en production.</p></div>
+        <div class="pipe-step"><div class="pipe-dot">0%</div><h3>Intégration</h3><p>Migration des standalones. Données réelles. Multi-événement. Accès par rôle.</p></div>
+        <div class="pipe-step"><div class="pipe-dot">0%</div><h3>Déploiement ML</h3><p>Test en conditions réelles avec l'équipe Madame Loyal. Retours terrain, ajustements, validation.</p></div>
+        <div class="pipe-step"><div class="pipe-dot">0%</div><h3>SaaS</h3><p>Multi-tenant, onboarding, commercialisation. Festiflow devient un produit.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="more-indicator rv" onclick="toggleRoadmapFull()"><span id="roadmapMoreTxt">More</span><div class="shl"></div></div>
+
   <div style="margin-top:48px;padding:32px 28px;background:rgba(25,30,40,.6);border:1px solid rgba(255,255,255,.06);border-radius:6px">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
       <span style="font-family:var(--mono);font-size:11px;color:var(--acc);background:var(--adim);border:1px solid rgba(0,255,170,.15);padding:5px 14px;letter-spacing:1.5px;text-transform:uppercase">Prochaine livraison</span>
@@ -447,6 +483,14 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 
     <!-- RECENT — last 2 weeks, always visible -->
     <div class="cl-entry">
+      <div class="cl-date">Semaine 12 — 13 avr</div>
+      <div class="cl-content">
+        <h4><span class="cl-tag update">Update</span>Billetterie v5.2 — Intégration EPK 2023 & nouveau mode de comparaison</h4>
+        <p>Adaptation complète du pipeline pour comparer EPK 2026 avec la référence EPK 2023 (Shotgun uniquement, 263 jours de vente). Nouveau mode de comparaison par ancrage date-événement pour aligner deux timelines différentes. Mapping automatique des jours (Ven+Sam → Sam+Dim), classification ticket GOLD → VIP, détection auto de la date de lancement. Shell supprimé du standalone — template épuré avec login. Fix CSS mobile et correction crash pipeline Bordeaux.</p>
+      </div>
+    </div>
+
+    <div class="cl-entry">
       <div class="cl-date">Semaine 7 — 11 avr</div>
       <div class="cl-content">
         <h4><span class="cl-tag update">Update</span>Budget v3 — Release opérationnelle</h4>
@@ -462,6 +506,11 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
       </div>
     </div>
 
+  </div>
+
+  <!-- OLDER — hidden by default -->
+  <div class="changelog" id="clOlder" style="display:none">
+
     <div class="cl-entry">
       <div class="cl-date">Semaine 5 — 7 avr</div>
       <div class="cl-content">
@@ -469,11 +518,6 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
         <p>Progression sur la librairie de composants React. Exploration de plusieurs directions visuelles pour affiner le design system. Mise à jour de l'ordre de build : Budget en priorité, puis Contacts.</p>
       </div>
     </div>
-
-  </div>
-
-  <!-- OLDER — hidden by default -->
-  <div class="changelog" id="clOlder" style="display:none">
 
     <div class="cl-entry">
       <div class="cl-date">Semaine 31 mars — 6 avr</div>
@@ -568,7 +612,7 @@ footer{border-top:1px solid var(--brd);padding:36px 0}
 <!-- FOOTER -->
 <footer><div class="C"><div class="fr">
   <p>&copy; 2026 studio AI2K. All rights reserved.</p>
-  <p>Dernière mise à jour : Semaine 7 — 11 avr</p>
+  <p>Dernière mise à jour : Semaine 12 — 13 avr</p>
   <a href="https://ai2k.dev">ai2k.dev</a>
 </div></div></footer>
 
@@ -626,8 +670,9 @@ var MODULES = [
     { name: "Événements", status: "planned", desc: "Hub de configuration événement — source de vérité pour tous les modules.", link: "" },
   ]},
   { section: "Finance", items: [
-    { name: "Billetterie", status: "live", desc: "Standalone opérationnel — dashboard ventes, import DICE & Shotgun, projections. Version React après migration.", link: "https://madameloyal.github.io/festiflow/bordeaux.html", standalone: true },
+    { name: "Billetterie", status: "live", desc: "v5.2 — Pipeline multi-événement, comparaison YoY avec ancrage date-événement, import DICE & Shotgun. Shell supprimé, standalone épuré.", links: [{label:"Bordeaux",url:"https://madameloyal.github.io/festiflow/bordeaux.html"},{label:"EPK",url:"https://madameloyal.github.io/festiflow/epk.html"},{label:"Upload CSV",url:"https://madameloyal.github.io/festiflow/upload.html"}], standalone: true },
     { name: "Budget", status: "live", desc: "v3 — UI repensée, système 'À Trier', linking recettes, assign searchable (iPad), 6 bug fixes critiques, optimisé mobile (iPhone 17 Pro Max). Prochaine étape : design React.", links: [{label:"Paris XXL",url:"https://madameloyal.github.io/budgetflow/budget_pa.html"},{label:"Bordeaux",url:"https://madameloyal.github.io/budgetflow/budget_bdx.html"},{label:"EPK",url:"https://madameloyal.github.io/budgetflow/budget_epk.html"}], priority: true, standalone: true },
+    { name: "Demande d'Achat", status: "planned", desc: "Demandes d'achat & abonnements — formulaire employé, validation CEO, sync Budget.", link: "" },
     { name: "Partenaires", status: "planned", desc: "CRM sponsors — pipeline, contrats, contreparties, rapport post-event.", link: "" },
   ]},
   { section: "Staffing · Événement", items: [
@@ -637,16 +682,16 @@ var MODULES = [
     { name: "Transport", status: "planned", desc: "Logistique transport staff — billets, trajets, budget.", link: "" },
     { name: "Hébergement", status: "planned", desc: "Rooming list, attribution chambres, budget nuitées.", link: "" },
   ]},
-  { section: "Base RH · Permanent", items: [
+  { section: "Système", items: [
     { name: "Contacts", status: "proto", desc: "Base de données unique — fondation de tous les modules.", link: "" },
-    { name: "Admin / Paie", status: "planned", desc: "Données sensibles — sécu sociale, IBAN, DPAE. Accès restreint.", link: "" },
+    { name: "Admin", status: "planned", desc: "Comptes utilisateurs, rôles, permissions, audit trail.", link: "" },
   ]},
   { section: "Programmation", items: [
     { name: "Artistes", status: "planned", desc: "Bookings, cachets, riders, agences et scouting.", link: "" },
-    { name: "Guest List", status: "planned", desc: "Guest lists, magic links artistes, fusion door list, check-in.", link: "" },
   ]},
   { section: "Opérations", items: [
     { name: "Atelier", status: "planned", desc: "Inventaire matériel, factures internes, cartes de crédit.", link: "" },
+    { name: "Guest List", status: "planned", desc: "Guest lists, magic links, fusion door list, check-in.", link: "" },
   ]},
   { section: "Communication", items: [
     { name: "Calendrier", status: "proto", desc: "Planning communication — 4 vues, charge par membre.", link: "" },
@@ -661,10 +706,21 @@ var SHELL_LINK = "festiflow-shell.html";
 function renderModules() {
   var el = document.getElementById('moduleMap');
   var html = '';
-  MODULES.forEach(function(section) {
+  var expandedSections = ['Général', 'Finance'];
+  MODULES.forEach(function(section, sIdx) {
+    var isExpanded = expandedSections.indexOf(section.section) > -1;
+    var countText = section.items.length + ' module' + (section.items.length > 1 ? 's' : '');
     html += '<div class="mod-section rv">';
-    html += '<div class="mod-section-label">' + section.section + '</div>';
-    html += '<div class="mod-grid">';
+    if (isExpanded) {
+      html += '<div class="mod-section-label">' + section.section + ' <span style="font-weight:400;letter-spacing:1px">/ ' + countText + '</span></div>';
+      html += '<div class="mod-grid">';
+    } else {
+      html += '<div class="mod-section-toggle" onclick="toggleModSection(this)">';
+      html += '<span class="mod-toggle-label">' + section.section + ' <span style="font-weight:400;letter-spacing:1px">/ ' + countText + '</span></span>';
+      html += '<span class="mod-toggle-plus">+</span>';
+      html += '</div>';
+      html += '<div class="mod-grid" style="display:none;margin-top:16px">';
+    }
     section.items.forEach(function(m) {
       var cls = m.status === 'planned' ? 'mod-card is-planned' : 'mod-card';
       var badgeCls = m.status === 'live' ? 'mod-badge live' : m.status === 'proto' ? 'mod-badge proto' : 'mod-badge planned';
@@ -692,8 +748,25 @@ function renderModules() {
     html += '</div></div>';
   });
   el.innerHTML = html;
-  // observe new reveals
   document.querySelectorAll('.mod-section.rv').forEach(function(el) { obs.observe(el); });
+}
+
+function toggleModSection(toggle) {
+  var grid = toggle.nextElementSibling;
+  var plus = toggle.querySelector('.mod-toggle-plus');
+  if (grid.style.display === 'none') {
+    grid.style.display = '';
+    grid.classList.add('stagger-in');
+    var children = grid.children;
+    for (var i = 0; i < children.length; i++) {
+      children[i].style.animationDelay = (i * 100) + 'ms';
+    }
+    plus.classList.add('open');
+  } else {
+    grid.style.display = 'none';
+    grid.classList.remove('stagger-in');
+    plus.classList.remove('open');
+  }
 }
 renderModules();
 
@@ -899,6 +972,41 @@ renderModuleBadges();
 // Load feedback from Google Sheet (will overwrite mock data when configured)
 loadFeedback();
 
+/* ═══ PROGRESS MORE/LESS ═══ */
+var progressExpanded = false;
+function toggleProgressCards() {
+  var cards = document.getElementById('progressCards');
+  var txt = document.getElementById('progressMoreTxt');
+  progressExpanded = !progressExpanded;
+  if (progressExpanded) {
+    cards.style.display = 'flex';
+    cards.classList.add('stagger-in');
+    var children = cards.children;
+    for (var i = 0; i < children.length; i++) {
+      children[i].style.animationDelay = (i * 150) + 'ms';
+    }
+    txt.textContent = 'Less';
+  } else {
+    cards.style.display = 'none';
+    cards.classList.remove('stagger-in');
+    txt.textContent = 'More';
+  }
+}
+
+var roadmapExpanded = false;
+function toggleRoadmapFull() {
+  var full = document.getElementById('roadmapFull');
+  var txt = document.getElementById('roadmapMoreTxt');
+  roadmapExpanded = !roadmapExpanded;
+  if (roadmapExpanded) {
+    full.style.display = '';
+    txt.textContent = 'Less';
+  } else {
+    full.style.display = 'none';
+    txt.textContent = 'More';
+  }
+}
+
 /* ═══ CHANGELOG MORE/LESS ═══ */
 var clExpanded = false;
 function toggleOlderChangelog() {
@@ -908,10 +1016,16 @@ function toggleOlderChangelog() {
   clExpanded = !clExpanded;
   if (clExpanded) {
     older.style.display = '';
+    older.classList.add('stagger-in');
+    var children = older.children;
+    for (var i = 0; i < children.length; i++) {
+      children[i].style.animationDelay = (i * 120) + 'ms';
+    }
     txt.textContent = 'Less';
     line.style.transform = 'rotate(180deg)';
   } else {
     older.style.display = 'none';
+    older.classList.remove('stagger-in');
     txt.textContent = 'More';
     line.style.transform = '';
   }
@@ -989,10 +1103,13 @@ function pwCheck(){
 function markFbDone(row, btn) {
   btn.textContent = '…';
   btn.disabled = true;
+  // Use POST with form-encoded data (works with no-cors)
+  var formData = new FormData();
+  formData.append('action', 'markDone');
+  formData.append('row', row);
   fetch(FEEDBACK_URL, {
     method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'markDone', row: row })
+    body: formData
   });
   // Optimistic update
   var entry = allFeedback.find(function(fb) { return fb.row === row; });
