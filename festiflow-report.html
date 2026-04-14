@@ -104,8 +104,8 @@ nav.scrolled .nav-left,nav.scrolled .nav-right{opacity:1;pointer-events:auto}
 .mod-section-toggle:hover{border-color:var(--brdh)}
 
 /* ═══ STAGGER REVEAL ═══ */
-@keyframes staggerIn{from{opacity:0}to{opacity:1}}
-.stagger-in>*{opacity:0;animation:staggerIn .4s ease forwards}
+@keyframes staggerIn{from{opacity:1}to{opacity:1}}
+.stagger-in>*{opacity:1}
 .mod-toggle-label{font-family:var(--mono);font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:3px}
 .mod-toggle-plus{font-size:18px;color:var(--t3);margin-left:auto;transition:transform .3s;line-height:1}
 .mod-toggle-plus.open{transform:rotate(45deg)}
@@ -139,7 +139,7 @@ nav.scrolled .nav-left,nav.scrolled .nav-right{opacity:1;pointer-events:auto}
 .pipe-step p{font-size:11px;color:var(--t2);line-height:1.5;max-width:140px;margin:0 auto}
 .pipe-step.done h3{color:var(--acc)}
 .pipe-step.active h3{color:var(--amb)}
-.fly-steps .pipe-step{opacity:0;transition:opacity .5s ease}
+.fly-steps .pipe-step{opacity:1}
 .fly-steps.vis .pipe-step{opacity:1}
 .fly-steps.vis .pipe-step:nth-child(1){transition-delay:.1s}
 .fly-steps.vis .pipe-step:nth-child(2){transition-delay:.18s}
@@ -241,16 +241,16 @@ nav.scrolled .nav-left,nav.scrolled .nav-right{opacity:1;pointer-events:auto}
 }
 
 /* ═══ REVEALS ═══ */
-.rv{opacity:0;transition:opacity .7s ease}
+.rv{opacity:1}
 .rv.vi{opacity:1}
-.rv-stagger>*{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
-.rv-stagger.vi>*:nth-child(1){opacity:1;transform:translateY(0);transition-delay:.05s}
-.rv-stagger.vi>*:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.15s}
-.rv-stagger.vi>*:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.25s}
-.rv-stagger.vi>*:nth-child(4){opacity:1;transform:translateY(0);transition-delay:.35s}
-.rv-stagger.vi>*:nth-child(5){opacity:1;transform:translateY(0);transition-delay:.45s}
-.rv-stagger.vi>*:nth-child(6){opacity:1;transform:translateY(0);transition-delay:.55s}
-.rv-stagger.vi>*:nth-child(7){opacity:1;transform:translateY(0);transition-delay:.65s}
+.rv-stagger>*{opacity:1}
+.rv-stagger.vi>*:nth-child(1){opacity:1}
+.rv-stagger.vi>*:nth-child(2){opacity:1}
+.rv-stagger.vi>*:nth-child(3){opacity:1}
+.rv-stagger.vi>*:nth-child(4){opacity:1}
+.rv-stagger.vi>*:nth-child(5){opacity:1}
+.rv-stagger.vi>*:nth-child(6){opacity:1}
+.rv-stagger.vi>*:nth-child(7){opacity:1}
 
 /* ═══ FOOTER ═══ */
 footer{border-top:1px solid var(--brd);padding:36px 0}
